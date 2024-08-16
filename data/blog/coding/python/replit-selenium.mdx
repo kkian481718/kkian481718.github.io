@@ -1,0 +1,38 @@
+---
+title: "Python雜記｜在repl.it上使用selenium"
+date: '2024-07-23'
+tags: ['coding', 'python']
+authors: ['default']
+draft: false
+summary: 如果你跟我一樣想用reply.it爬蟲，而且很反骨想用selenium，這篇手把手教學讓你成功執行第一隻自己的爬蟲！
+---
+
+## 背景
+如果你跟我一樣想用reply.it爬蟲，而且很反骨想用selenium，那麼你來對地方了！
+
+## 1. 編輯replit.nix
+- 先按左邊files，找到右上角的三個點點
+- 按show hidden files
+- 編輯remplit.nix，加入下面兩個套件
+```nix:remplit.nix
+{pkgs}: {
+    deps = [
+        pkgs.chromium
+        pkgs.chromedriver
+    ];
+}
+```
+
+## 2. 回到 main.py，初始化chromedriver
+```python:main.py
+# 引用webdriver套件
+from selenium import webdriver
+
+# Chromedriver設定
+chrome_options = Options()
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+driver = webdriver.Chrome(options=chrome_options)
+```
+
+## 3. 大功告成：）
