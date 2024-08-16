@@ -10,19 +10,19 @@ const siteMetadata = {
   siteRepo: 'https://github.com/kkian481718/MiffyIvyBlog',
   siteLogo: `${process.env.BASE_PATH || ''}/static/images/logo.png`,
   socialBanner: `${process.env.BASE_PATH || ''}/static/images/twitter-card.png`,
-  mastodon: 'https://mastodon.social/@mastodonuser',
+  //mastodon: 'https://mastodon.social/@mastodonuser',
   email: 'miffyptmail@gmail.com',
-  github: 'https://github.com',
-  x: 'https://twitter.com/x',
+  //github: 'https://github.com',
+  //x: 'https://twitter.com/x',
   // twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
-  threads: 'https://www.threads.net',
-  instagram: 'https://www.instagram.com',
+  //facebook: 'https://facebook.com',
+  //youtube: 'https://youtube.com',
+  //linkedin: 'https://www.linkedin.com',
+  //threads: 'https://www.threads.net',
+  //instagram: 'https://www.instagram.com',
   locale: 'zh-TW',
   // set to true if you want a navbar fixed to the top
-  stickyNav: false,
+  stickyNav: true,
   analytics: {
     // If you want to use an analytics provider you have to add it to the
     // content security policy in the `next.config.js` file.
@@ -79,7 +79,7 @@ const siteMetadata = {
       // example: https://giscus.app/themes/custom_example.css
       themeURL: '',
       // This corresponds to the `data-lang="en"` in giscus's configurations
-      lang: 'en',
+      lang: 'zh-TW',
     },
   },
   search: {
