@@ -1,12 +1,12 @@
 import Script from 'next/script'
 
 type Props = {
-  pId: string;
-};
+  pId: string
+}
 
 const GoogleAdsense: React.FC<Props> = ({ pId }) => {
   if (process.env.NODE_ENV !== "production") {
-    return null;
+    return null
   }
   return (
     <Script
@@ -15,7 +15,7 @@ const GoogleAdsense: React.FC<Props> = ({ pId }) => {
       crossOrigin="anonymous"
       strategy="afterInteractive"
     />
-  );
-};
+  )
+}
 
-export default GoogleAdsense;
+export default GoogleAdsense
