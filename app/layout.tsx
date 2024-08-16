@@ -9,9 +9,9 @@ import Header from '@/components/Header'
 import SectionContainer from '@/components/SectionContainer'
 import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
+import GoogleAdsense from '@/components/GoogleAdsense'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
-import GoogleAdsense from "../components/GoogleAdsense"
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
