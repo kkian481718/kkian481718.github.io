@@ -1,0 +1,257 @@
+---
+title: "Thunkable｜自己的聊天系統自己做！"
+date: '2021-04-22'
+tags: ['coding', 'thunkable']
+authors: ['default']
+draft: false
+summary: 利用Firebade存取訊息，加上用thunkable來做出漂亮的介面，每個人都可以做自己的聊天軟體！
+---
+## 前言
+**摘要：** 從零開始，利用Firebade存取訊息、時間，來達到簡單的線上聊天室功能
+
+初始設定的說明書在 [這裡](https://docs.thunkable.com/realtime-db)
+這篇有稍微翻譯說明書，也加了許多我個人的經驗。
+
+本篇主要會做３件事
+- 連結Firebase
+- 送出訊息
+- 接收訊息
+
+那麼開始ㄌㄨㄛ。
+
+## 1 連結你的Firebase
+Firebase是一個線上伺服器，可以用Google帳號登入，並使用一些基本的流量。我也還不知道他的詳細功能是什麼，我就爛 (沒)
+總之，這些免費的基本流量，對於我們讀取文字訊息的需求，已經綽綽有餘了！
+
+### 1-1 先建立一個Firebase的帳號
+首先，先到下面這個網站 https://firebase.google.com/?hl=zh-tw
+![firebase pic1](/static/images/coding/thunkable/thunkable-1.jpg)
+
+點選 "get start" 之後，需要登入你的Google帳號
+
+### 1-2 建立新專案
+再來點選 **"新增專案"**
+![firebase pic2](/static/images/coding/thunkable/thunkable-2.jpg)
+
+再來取一個你想要的名稱
+(可以跟你的App名稱不一樣，且這個名稱不會顯示在程式上)
+![firebase pic3](/static/images/coding/thunkable/thunkable-3.jpg)
+
+### 1-3 Google Analytics
+可開可不開，幾乎所有功能我們都用不到
+除非你要自己連結API
+(其實我也還在研究API是甚麼，感覺有點像餐廳裡的服務生那種概念)
+
+但開了也有好處
+可以看到一些分析的資料
+還有他們提供的測試功能
+![firebase pic4](/static/images/coding/thunkable/thunkable-4.jpg)
+
+如果你上一步有開啟Google Analytics
+接下來你就要選擇一個有在使用的帳號
+
+(如果沒有建立過好像會自動建立？)
+![firebase pic5](/static/images/coding/thunkable/thunkable-5.jpg)
+
+如果你看到這個畫面
+那就大功告成拉！
+恭喜你離自己的聊天APP又更近了一步 ：Ｄ
+![firebase pic6](/static/images/coding/thunkable/thunkable-6.jpg)
+
+### 1-4 開啟編輯權限
+首先點選畫面左上角的 `Database`
+![firebase pic7](/static/images/coding/thunkable/thunkable-7.jpg)
+
+進入之後
+往下拉到 "Realtime Database"
+然後按 "建立資料庫"
+![firebase pic8](/static/images/coding/thunkable/thunkable-8.jpg)
+
+再來會跳出一個基本的
+伺服器規則設定
+![firebase pic9](/static/images/coding/thunkable/thunkable-9.jpg)
+
+> ### 注意！
+> 在這裡要選擇 `以測試模式啟動`
+> 程式才能正確讀寫
+> 
+> 如果你的程式有連結Authentication，你也可以設定一些特定的規則，讓有登入的用戶才能存取資料。
+> (關於Authentication到底是甚麼，之後應該會有一篇登入系統的介紹文)
+> (我是說，如果我寫得出來的話)
+
+> [延伸閱讀] 進階版的Firebase 規則設定
+> https://www.oxxostudio.tw/articles/201904/firebase-realtime-database-rules.html
+
+按下 "啟用" 之後
+應該就會進到這個畫面
+那就代表你的Realtime Database建立成功ㄌ
+![firebase pic](/static/images/coding/thunkable/thunkable-10.jpg)
+
+### 1-5 設定數值
+接下來，我們要來設定儲存訊息的資料夾。
+![firebase pic](/static/images/coding/thunkable/thunkable-11.jpg)
+
+首先
+把滑鼠移到最頂層資料上面
+就會跑出旁邊的 + 符號
+(手機好像是點一下？)
+
+然後就會產生一個子目錄：
+![firebase pic](/static/images/coding/thunkable/thunkable-12.jpg)
+
+按照這個方法
+我們先在頂層(這個專案的頂層是test-3530c)
+按一下 "+"
+然後在跳出來的格子中，再按兩次 "+"
+
+於是就會變成這樣：
+![firebase pic](/static/images/coding/thunkable/thunkable-13.jpg)
+
+接下來再輸入資訊，就會變成這樣：
+![firebase pic](/static/images/coding/thunkable/thunkable-14.jpg)
+
+用酒紅畫底線的地方
+名稱可以取你自己想要的
+我們接下來會呼叫這個名稱來得到裡面的值
+
+現在我都先存null，但現在存甚麼東西其實都沒差
+因為之後我們會透過程式來改寫它
+但一定要有值(空白鍵、空字串都可以)
+不然會無法儲存
+
+順帶一提，
+下面這是高一開發過的遊戲
+Inside Outside 用來儲存訊息的目錄區
+
+```python
+/Messenger/_time/   # 用來儲存最新訊息的送出時間
+/Messenger/general/ # 用來儲存所有訊息
+```
+當然不只這種儲存方法，
+你也可以將每道訊息分開存
+然後每到訊息都有獨立的 “送出時間"、“帳號"、“訊息內容"…
+之類的
+
+如果你還不太清楚要怎麼存
+你可以像我一樣先設定好 “時間"、"訊息" 的儲存就好
+或者你也可以繼續往下看
+了解程式是怎麼讀取訊息的。
+
+### 1-6 連結你的UID
+![firebase pic](/static/images/coding/thunkable/thunkable-15.jpg)
+Thunkable已經有幫我們做了一個好用的功能
+就是可以用變數讀取的方式
+來使用Realtime Database
+
+因此
+我們要做的只要先讓我們的程式知道
+應該去哪裡找資料
+
+最快的方法是
+打開你的Firebase主頁
+然後新增一個專案
+![firebase pic](/static/images/coding/thunkable/thunkable-16.jpg)
+
+別擔心
+我們並沒有要真的連結一個新專案
+只是在專案設定中
+可以直接看到你的 `apiKey` 和 `databaseURL`
+![firebase pic](/static/images/coding/thunkable/thunkable-17.jpg)
+
+得到這兩組資訊後
+將他們放到你的程式設定中
+
+醬子你的程式就正式連接上Firebase囉！
+![firebase pic](/static/images/coding/thunkable/thunkable-18.jpg)
+
+## 2 讓玩家送出訊息
+### 2-1 設計畫面
+
+先將Label、Text Input、Button
+各拉一個進入畫面。
+
+- Label：顯示訊息
+- Text Input：輸入訊息
+- Button：按了之後送出訊息
+
+![pic](/static/images/coding/thunkable/thunkable-19.jpg)
+
+這是當時那個遊戲內訊息欄的設計
+上面那些都不是重點
+重點在下面 φ(゜▽゜*)♪
+
+現在上面寫著 *"跟著一起蓋樓"* 的就是訊息輸入框
+![pic](/static/images/coding/thunkable/thunkable-20.jpg)
+
+順帶一提
+你可以在 **"Hint"** 設定裡面改變這個文字
+這只是提示文字
+當Text Input被選中之後就會隱藏了
+
+再來寫著 **"[time]"** 的是時間欄
+讓 "最新訊息送出的時間" 顯示的地方
+
+最下面寫著 **"Loading..."** 是今天的重點
+這裡將會顯示我們的訊息
+![pic](/static/images/coding/thunkable/thunkable-21.jpg)
+
+而為了讓這個欄位可以正確被捲動
+Height的地方記得要設定成 Fit
+
+整個訊息欄的架構長這樣：
+![pic](/static/images/coding/thunkable/thunkable-22.jpg)
+
+
+- __Say__ 是輸入訊息的地方
+- __Msg__ 是顯示訊息和時間戳記的地方
+
+然後為了要讓訊息欄能夠捲動
+顯示訊息的Column (__Msg__)
+記得Scrollable要設定成True、Height設定成 `Fit`
+
+### 2-2 送出訊息
+(1) 設定雲端變數，名稱就跟你訊息儲存的目錄一樣
+(因為_time和general儲存在Messenger下面，所以用 Messenger/_time 來讀取)
+![pic](/static/images/coding/thunkable/thunkable-23.jpg)
+
+(2) 當送出訊息的按鈕被按下時，就執行下面這段程式
+![pic](/static/images/coding/thunkable/thunkable-24.jpg)
+
+(a) 先將輸入欄隱藏起來、才不會重複按下送出的按鈕
+(b) 再來橘色的那塊是上傳訊息到雲端
+
+(因為遊戲裡有帳號名稱，所以我直接抓帳號名稱來用)
+
+(然後"Msg_Input"就是新輸入的訊息，"\n"是換行符號，
+這樣你就知道，我其實就是把新的訊息一直疊到舊的訊息上面)
+
+(c) 接下來呼叫更新時間戳記的副程式 (如下)
+![pic](/static/images/coding/thunkable/thunkable-25.jpg)
+
+(d) 最後清空輸入欄、顯示輸入欄
+
+
+然後最上面的 If 判斷式
+我只是簡單加入
+“訊息不可以為空" 和 “訊息不可以是空格" 的條件
+
+## 3 把訊息抓下來
+最後一個、也是最簡單的一個步驟。
+![pic](/static/images/coding/thunkable/thunkable-26.jpg)
+
+這個指令的意思是
+當程式監測到 “Messenger/_time" 這個變數有 改變 的時候
+就執行下面的指令
+(在Variable的類別裡可以找到這個指令)
+![pic](/static/images/coding/thunkable/thunkable-27.jpg)
+
+而我設定的就是將 “時間" 和 “訊息欄" 更新
+就這樣，對。
+
+## 完工：Ｄ
+沒錯
+這樣你就擁有自己的聊天系統了
+快下載下來跟你的朋友聊天吧 ( •̀ ω •́ )y
+
+想當年還有在認真經營官網：）<br/>
+InsideOutside官網 | https://sites.google.com/view/inside-outside/
