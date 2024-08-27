@@ -162,7 +162,6 @@ Thunkable已經有幫我們做了一個好用的功能
 將他們放到你的程式設定中
 
 醬子你的程式就正式連接上Firebase囉！
-![firebase pic](/static/images/coding/thunkable/thunkable-18.jpg)
 
 ## 2 讓玩家送出訊息
 ### 2-1 設計畫面
@@ -174,14 +173,14 @@ Thunkable已經有幫我們做了一個好用的功能
 - Text Input：輸入訊息
 - Button：按了之後送出訊息
 
-![pic](/static/images/coding/thunkable/thunkable-19.jpg)
+![pic](/static/images/coding/thunkable/thunkable-18.jpg)
 
 這是當時那個遊戲內訊息欄的設計
 上面那些都不是重點
 重點在下面 φ(゜▽゜*)♪
 
 現在上面寫著 *"跟著一起蓋樓"* 的就是訊息輸入框
-![pic](/static/images/coding/thunkable/thunkable-20.jpg)
+![pic](/static/images/coding/thunkable/thunkable-19.jpg)
 
 順帶一提
 你可以在 **"Hint"** 設定裡面改變這個文字
@@ -193,13 +192,13 @@ Thunkable已經有幫我們做了一個好用的功能
 
 最下面寫著 **"Loading..."** 是今天的重點
 這裡將會顯示我們的訊息
-![pic](/static/images/coding/thunkable/thunkable-21.jpg)
+![pic](/static/images/coding/thunkable/thunkable-20.jpg)
 
 而為了讓這個欄位可以正確被捲動
 Height的地方記得要設定成 Fit
 
 整個訊息欄的架構長這樣：
-![pic](/static/images/coding/thunkable/thunkable-22.jpg)
+![pic](/static/images/coding/thunkable/thunkable-21.jpg)
 
 
 - __Say__ 是輸入訊息的地方
@@ -212,10 +211,10 @@ Height的地方記得要設定成 Fit
 ### 2-2 送出訊息
 (1) 設定雲端變數，名稱就跟你訊息儲存的目錄一樣
 (因為_time和general儲存在Messenger下面，所以用 Messenger/_time 來讀取)
-![pic](/static/images/coding/thunkable/thunkable-23.jpg)
+![pic](/static/images/coding/thunkable/thunkable-22.jpg)
 
 (2) 當送出訊息的按鈕被按下時，就執行下面這段程式
-![pic](/static/images/coding/thunkable/thunkable-24.jpg)
+![pic](/static/images/coding/thunkable/thunkable-23.jpg)
 
 (a) 先將輸入欄隱藏起來、才不會重複按下送出的按鈕
 (b) 再來橘色的那塊是上傳訊息到雲端
@@ -226,7 +225,7 @@ Height的地方記得要設定成 Fit
 這樣你就知道，我其實就是把新的訊息一直疊到舊的訊息上面)
 
 (c) 接下來呼叫更新時間戳記的副程式 (如下)
-![pic](/static/images/coding/thunkable/thunkable-25.jpg)
+![pic](/static/images/coding/thunkable/thunkable-24.jpg)
 
 (d) 最後清空輸入欄、顯示輸入欄
 
@@ -237,13 +236,13 @@ Height的地方記得要設定成 Fit
 
 ## 3 把訊息抓下來
 最後一個、也是最簡單的一個步驟。
-![pic](/static/images/coding/thunkable/thunkable-26.jpg)
+![pic](/static/images/coding/thunkable/thunkable-25.jpg)
 
 這個指令的意思是
 當程式監測到 “Messenger/_time" 這個變數有 改變 的時候
 就執行下面的指令
 (在Variable的類別裡可以找到這個指令)
-![pic](/static/images/coding/thunkable/thunkable-27.jpg)
+![pic](/static/images/coding/thunkable/thunkable-26.jpg)
 
 而我設定的就是將 “時間" 和 “訊息欄" 更新
 就這樣，對。
